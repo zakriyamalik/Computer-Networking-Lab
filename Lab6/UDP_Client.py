@@ -8,7 +8,6 @@ def main():
     try:
         # Get input from the user
         client_message = input("Enter Message: ")
-
         # Send the message to the server
         sock.sendto(client_message.encode(), server_address)
 
