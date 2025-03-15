@@ -1,10 +1,10 @@
 import socket
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
- server_address=('localhost',10000)
- sock.bind(server_address)
- sock.listen(1)
- while True:
+sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+server_address=('localhost',10000)
+sock.bind(server_address)
+sock.listen(1)
+while True:
     try:
         connection,address=sock.accept()
         while True:
