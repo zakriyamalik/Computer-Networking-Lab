@@ -29,30 +29,31 @@
 
 import sys
 
-def coin_change(N, Amt, C):
-    # Base Case: If amount is 0, we need 0 coins
+def CoinChange(N, Amt,C):
+    if N == 0:
+        return C[N]
+
     if Amt == 0:
         return 0
-    # If no coins left and amount > 0 → not possible
-    if N == 0:
-        return sys.maxsize  # acts like "infinity"
 
-    if C[N-1] > Amt:
-        return coin_change(N-1, Amt, C)
+    if C[N] > Amt:
+        return CoinChange(C, N - 1, Amt)
     else:
         return min(
-            coin_change(N-1, Amt, C),                       # don't take current coin
-            1 + coin_change(N-1, Amt - C[N-1], C)           # take current coin
+            CoinChange(C, N - 1, Amt),
+            1 + CoinChange(C, N - 1, Amt - C[N])
         )
 
-# Example usage:
-coins = [1, 2, 3]     # Coin denominations
-amount = 4
-N = len(coins)
 
-result = coin_change(N, amount, coins)
+# Example usage:
+coins = [1,2,3]     # Coin denominations
+amount = 6
+N = len(coins)-1
+
+result = CoinChange(N, amount, coins)
 
 if result == sys.maxsize:
     print("Not possible to make the amount with given coins.")
 else:
     print("Minimum coins required:", result)
+
