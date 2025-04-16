@@ -1,22 +1,44 @@
 import socket
 import threading
-
-class ThreadStruct:
-    def __init__(self, t_msg, tid):
-        self.t_msg = t_msg
-        self.tid = tid
+import os
 
 
 class userStruct:
     def __init__(self,u_name, u_cnic ):
-        self.t_u_name=u_name
+        self.u_name=u_name
         self.u_cnic = u_cnic
 
 
-def handleClient():
-    {
-        print("Handle Client function\n")
-    }
+def handleClient(thread_structs):
+    file_path = "output.txt"
+    thread_structs=thread_structs[0]
+    print("Handle Client function\n",thread_structs)
+    if os.path.exists("Voters_List.txt"):
+      f = open("Voters_List.txt", "r")
+      for x in f:
+       if thread_structs.u_name in x:
+          print("Valid Client")
+          candidate=input("Enter candiate option from the list")
+          if os.path.exists(file_path):
+           k = open("Candidates_List.txt", "r")
+           for x in k:
+               print(x)
+           if not os.path.exists(file_path):
+            with open(file_path, 'w') as file:
+                line=thread_structs.u_name+thread_structs.u_cnic+candidate
+                file.write(line)
+
+           else:
+            file = open("output.txt", "a")
+            line=thread_structs.u_name+thread_structs.u_cnic+candidate
+            file.write(line)
+            file.close()
+          else:
+              print("Candidates File not found")
+    else:
+       print("Voters File not found")
+
+    
 
 def main():
     host = '127.0.0.1'
@@ -69,8 +91,9 @@ def main():
         client_message1=client_message
         client_message=client_message.split(' ')
         thread_structs.append(userStruct(client_message[0],client_message[1]))
-        t = threading.Thread(target=handleClient, args=(thread_structs[0],))
+        t = threading.Thread(target=handleClient,args=(thread_structs,))
         threads.append(t)
+        t.start()
 
         # userStruct(client_message[0],client_message[1])
         print(client_message[0],client_message[1])

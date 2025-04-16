@@ -23,7 +23,7 @@ def main():
         return
 
     # Get user input
-    client_message = input("Enter Name and CNIC separated by space: ")
+    client_message = input("Enter Name and CNIC separated by space : ")
 
     # Send message to server
     try:
